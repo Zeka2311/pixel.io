@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пиксельный Редактор</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(16, 20px);
+            grid-template-rows: repeat(16, 20px);
+            gap: 1px;
+            background-color: #ccc;
+        }
+        .cell {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+        .cell:hover {
+            background-color: #e0e0e0;
+        }
+        .button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="color" class="color-picker" value="#000000">
+    <button class="button" id="fill-button">Залить фон</button>
+    <div class="grid">
+        <!-- Создание ячеек сетки с помощью JavaScript -->
+    </div>
+    <script>
+        const grid = document.querySelector('.grid');
+        const colorPicker = document.querySelector('.color-picker');
+        const fillButton = document.getElementById('fill-button');
+        let selectedColor = colorPicker.value;
+
+        // Обновление выбранного цвета при изменении
+        colorPicker.addEventListener('input', (event) => {
+            selectedColor = event.target.value;
+        });
+
+        // Создание ячеек сетки
+        for (let i = 0; i < 256; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.addEventListener('click', () => {
+                // Переключение цвета между выбранным и белым
+                cell.style.backgroundColor = cell.style.backgroundColor === selectedColor ? 'white' : selectedColor;
+            });
+            grid.appendChild(cell);
+        }
+
+        // Функция заливки фона
+        fillButton.addEventListener('click', () => {
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(cell => {
+                cell.style.backgroundColor = selectedColor;
+            });
+        });
+    </script>
+</body>
+</html>
